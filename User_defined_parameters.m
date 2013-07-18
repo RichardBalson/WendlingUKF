@@ -85,7 +85,7 @@ Ds = 8; % Number of differential equations describing model, also the number of 
 
 Dp = 3; % Number of parameters to be estimated, also refered to as slow states
 
-Dk =0; %If set to 1 the mean of the stochastic input will be estimated % Note that if Input_mean_variation is not zero than Dk should be set to one to allow tracking of the input mean
+Dk =1; %If set to 1 the mean of the stochastic input will be estimated % Note that if Input_mean_variation is not zero than Dk should be set to one to allow tracking of the input mean
 
 Dy =1; % Number of observable outputs from the simulation
 
