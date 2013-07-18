@@ -15,7 +15,7 @@
 % Beginning of function
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function [ExpX ExpY PxxF PxyF PyyF] = Exp_CoV(X, Dx, Y, Dy,kappa)
+function [ExpX ExpY PxxF PxyF PyyF] = Expectation(X, Dx, Y, Dy,kappa)
 
 if nargin == 4
     kappa =0;
@@ -39,62 +39,83 @@ if size(Y,1) == Dy          % Determine how Y matrix orientated
 else
     ExpY = sum(Weights'.*Y)';
 end
-WeightX = repmat(Weights,size(X,1),1);
 if size(X,1) == Dx         % Determine how x matrix orientated
-    ExpX= sum(WeightX'.*X')';
+    ExpX= sum(bsxfun(@times,X',Weights'))';
 else
-    ExpX = sum(WeightX'.*X)';
+    ExpX = sum(bsxfun(@times,X,Weights'))';
 end
+
+
+for i = 1:length(ExpX)
+    if size(X,1) == Dx          % Determine how X matrix orientated
+        Px(i,:) =  X(i,:) -ExpX(i);
+    else 
+        Px(i,:) = X(:,i)' - ExpX(i);
+    end
+end
+    if size(Y,1) == Dy          % Determine how X matrix orientated
+        Py =  Y -ExpY;
+    else 
+        Py = Y' - ExpY;
+    end
+
+% for i = 1:Number_sigma
+%     if size(X,1) == Dx          % Determine how X matrix orientated
+%         Px(:,i) =  X(:,i) -ExpX;
+%     else 
+%         Px(:,i) = X(i,:)' - ExpX;
+%     end
+%     if size(Y,1) == Dy          % Determine how X matrix orientated
+%         Py(:,i) =  Y(:,i) -ExpY;
+%     else 
+%         Py(:,i) = Y(i,:)' - ExpY;
+%     end
+% end
+
+PxxF = bsxfun(@times,Px,Weights)*Px';
+PxyF = bsxfun(@times,Px,Weights)*Py';
+PyyF = (Weights.*Py)*Py';
+
+% for i = 1:Number_sigma
+%    if size(X,1) == Dx  
+%     PxxT(:,:,i) = Weights(:,i)*(X(:,i)-ExpX)*(X(:,i)-ExpX)';
+%     else
+%      PxxT(:,:,i) = Weights(:,i)*(X(:,i)'-ExpX)*(X(:,i)'-ExpX)';   
+% end
+%     if size(Y,1) == Dy          % Determine how X matrix orientated
+%         PyyT(:,:,i) =  Weights(:,i).*(Y(:,i) -ExpY)*(Y(:,i) -ExpY)';
+%     else 
+%         PyyT(:,:,i) = Weights(:,i).*(Y(i,:)' - ExpY)*(Y(:,i)' -ExpY)';
+%     end
+%     if ((size(X,1)==Dx) && (size(Y,1)==Dy))
+%         PxyT(:,:,i) =WeightX(:,i).*(X(:,i) -ExpX)*(Y(:,i) -ExpY)';
+%     elseif ((size(X,1)==Dx))
+%         PxyT(:,:,i) =WeightX(:,i).*(X(:,i) -ExpX)*(Y(:,i)' -ExpY)';
+%     elseif (size(Y,1)==Dy)
+%         PxyT(:,:,i) =WeightX(:,i).*(X(:,i)' -ExpX)*(Y(:,i) -ExpY)';
+%     else   
+%         PxyT(:,:,i) =WeightX(:,i).*(X(:,i)' -ExpX)*(Y(:,i)' -ExpY)';
+%     end
+% end
+% 
+% 
+% PxxF = sum(PxxT,3);
+% PyyF = sum(PyyT,3);
+% PxyF = sum(PxyT,3);
+
 
 % Determine covariance for each state
 % ~~~~~~~~~~~~~~~~~~~~~
-
-for i = 1:Number_sigma
-    if size(X,1) == Dx          % Determine how X matrix orientated
-        Px(:,i) =  X(:,i) -ExpX;
-    else 
-        Px(:,i) = X(i,:)' - ExpX;
-    end
-    if size(Y,1) == Dy          % Determine how X matrix orientated
-        Py(:,i) =  Y(:,i) -ExpY;
-    else 
-        Py(:,i) = Y(i,:)' - ExpY;
-    end
-end
-
-Px1 = WeightX.*Px;
-Py1 = Weights.*Py;
-
-PxxF = Px1*Px';
-PxyF = Px1*Py';
-PyyF = Py1*Py';
-
-% if kappa > 0
-% Pxx0 = kappa/(2*(Dx+kappa))*SumPxx(1,:);
-% Pxy0 = kappa/(2*(Dx+kappa))*SumPxy(1,:);
-% Pyy0 = kappa/(2*(Dx+kappa))*SumPyy(1,:);
-% Pxx = 1/(2*(Dx+kappa))*SumPxx(2:length(SumPxx),:);
-% Pxy = 1/(2*(Dx+kappa))*SumPxy(2:length(SumPxy),:);
-% Pyy = 1/(2*(Dx+kappa))*SumPyy(2:length(SumPyy),:);
-% PxxF = cat(1,Pxx0,Pxx);
-% PyyF = cat(1,Pyy0,Pyy);
-% PxyF = cat(1,Pxy0,Pxy);
-% else
-% PxxF = 1/(2*(Dx+kappa))*SumPxx;
-% PxyF = 1/(2*(Dx+kappa))*SumPxy;
-% PyyF = 1/(2*(Dx+kappa))*SumPyy;
-% end
-
-% Parameter specifiction
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% XReshape = reshape(X,Dx,1,Number_sigma);
+% ExpXReshape = repmat(ExpX,[1 1 Number_sigma]);
+% YReshape = reshape(Y,size(Y,1),1,Number_sigma);
+% ExpYReshape = repmat(ExpY,[1 1 Number_sigma]);
+% WeightsReshape = reshape(Weights,1,1,Number_sigma);
+% 
+%     PxxF = WeightsReshape*(XReshape-ExpXReshape)*(XReshape-ExpXReshape)';   
+%         PyyF =  WeightsReshape.*(YReshape -ExpYReshape)*(YReshape -ExpYReshape)';
+%         PxyF =WeightsReshape.*(XReshape -ExpXReshape)*(YReshape -ExpYReshape)';
 
 
-% Units
-% ~~~~~~~~
-
-% Equations
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% End of function description
