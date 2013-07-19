@@ -9,7 +9,7 @@
 % last edit
 % ~~~~~~~~~
 
-% Base parameter_uncertinaty altered for excitattory gain
+
 % next edit
 % ~~~~~~~~~
 
@@ -19,29 +19,23 @@
 
 % Image names and handling
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-if ((min(MVI(:,1))==max(MVI(:,1))) && (min(MVI(:,2))==max(MVI(:,2))) && (min(MVI(:,3))==max(MVI(:,3))))
-    Parameter_varying=0; % Initialse parameter m, If m = 1 parameter uncertainty increases to account for the fact that the parameters vary in time. m is always set to zero, and is adjusted in the code accordingly
-    simulation_initial_name = [Estimation_Type,'f',int2str(SimulationSettings.fs),...
-        'A,B,G',int2str(MVI(1,1)),',',int2str(MVI(1,2)),',',int2str(MVI(1,3)),'S',num2str(SimulationSettings.stochastic)]; % Initaite name for simulation, used for saving purposes
-else
-    Parameter_varying=1;
-    simulation_initial_name = [Estimation_Type,'V_f=',int2str(SimulationSettings.fs),...
-        'A,B,G',int2str(MVI(1,1)),',',int2str(MVI(1,2)),',',int2str(MVI(1,3)),'S',num2str(SimulationSettings.stochastic)]; % Initaite name for simulation, used for saving purposes
-end
-sampling_frequency =SimulationSettings.fs;
+ sampling_frequency =fs;
+ frequency_limits=[30,150];
+ a = 100;
+ b= 30;
+ g=350;
+ 
+ Con = 135;
+ 
+ C= [Con,0.8*Con,0.25*Con,0.25*Con,0.3*Con,0.1*Con,0.8*Con];
+ 
+    simulation_initial_name = [Estimation_Type,'_UKF_WM8_f=',int2str(sampling_frequency),...
+        'Data']; % Initaite name for simulation, used for saving purposes
+
 % Assign standard deviation for all variables
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-% load InitialP1E CheckPxx CheckMean CheckInit
-% 
-% mean_state = (mean(CheckInit,2))'; % Deterine mean based on numerous previous simulation means
-% 
-% State_std_deviation = (sum(CheckPxx(1:8,1:8,:),3)/(size(CheckPxx,3)-1)*ones(8,1))';
-% 
-% Base_state_uncertainty = (State_std_deviation.^2)*sqrt(dt); % Determine base uncertainty for states
-
 load VarianceSim meanX stdX
-
 
 mean_state = (mean(meanX,2))'; % Deterine mean based on numerous previous simulation means
 
@@ -63,8 +57,7 @@ Input_mean = (frequency_limits(2)+frequency_limits(1))/2; % Mean input frequency
 % Simulated Signal Data mV
 % ~~~~~~~~~~~~~~~~~~
 EstStart_Sample = round(EstStart*sampling_frequency)+1;
-check = output8(EstStart_Sample:end); % Assign a new variable as the simulated output, data point form time EstStart are used as the beginning of the observations
-Y = check + randn(length(check),1)*NoiseIn; % Initalise noise on the simulated signal
+Y = Y(EstStart_Sample:end); % Assign a new variable as the simulated output, data point form time EstStart are used as the beginning of the observations
 Number_of_observations = length(Y); % Parameter that defines he number of observations from the simulation
 
 % Number of sigma points
@@ -88,7 +81,7 @@ end
 % Uncertianty for each fast state
 % mV
 
-State_uncertainty = ones(1,Ds).*Base_state_uncertainty; % Specify base
+State_uncertainty = ones(1,8).*Base_state_uncertainty; % Specify base
 % state uncertainty for all states
 % State_uncertainty(1,[2 6]) = (ones(1,2)*stochastic*Variable_state_uncertainty+State_uncertainty(1,[2 6])); % Alter uncertainty of parameter affected directly by stochastic input
 
@@ -96,11 +89,11 @@ State_uncertainty = ones(1,Ds).*Base_state_uncertainty; % Specify base
 % ~~~~~~~~~~~~~~~~~~~~~~~
 
 if Dp >0
-    Parameter_uncertainty(1,1) = Exc_parameter_uncertainty + Variable_parameter_uncertainty*Parameter_varying; % Variance to allow for model error and stochastic input effect
+    Parameter_uncertainty(1,1) = Base_parameter_uncertainty + Variable_parameter_uncertainty; % Variance to allow for model error and stochastic input effect
     if Dp >1
-        Parameter_uncertainty(1,2) = (SInh_parameter_uncertainty + Variable_parameter_uncertainty*Parameter_varying);
+        Parameter_uncertainty(1,2) = (Base_parameter_uncertainty + Variable_parameter_uncertainty);
         if Dp >2
-            Parameter_uncertainty(1,3) = (FInh_parameter_uncertainty + Variable_parameter_uncertainty*Parameter_varying); %[m*1e-1+1e-3 m*2.5e-1+1e-3 m*2.5e-1+1e-3]
+            Parameter_uncertainty(1,3) = (Base_parameter_uncertainty + Variable_parameter_uncertainty); %[m*1e-1+1e-3 m*2.5e-1+1e-3 m*2.5e-1+1e-3]
         end
     end
 else
@@ -111,7 +104,7 @@ end
 % ~~~~~~~~~~~~~~~~~
 
 if Dk==1
-    Input_uncertainty = Variable_input_uncertainty*(SimulationSettings.Input_mean_variation>0)+Base_input_uncertainty; % Define the uncertainty of the input to the model, 
+    Input_uncertainty = Variable_input_uncertainty+Base_input_uncertainty; % Define the uncertainty of the input to the model, 
     Input_uncertainty = Input_uncertainty.^2.*uncertainty_adjustment;
 else
     Input_uncertainty =[];
@@ -130,6 +123,8 @@ Parameter_uncertaintyF = repmat(Parameter_uncertainty,Dp,1);% Define a parameter
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % Intialise all parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+tcon =[a,b,g];
 
 X = zeros(Dx,Number_of_observations); % Intialise state estimate matrix
 Pxx = zeros(Dx,Dx,Number_of_observations);% Intialise state covariance estimate matrix

@@ -11,9 +11,6 @@
 % next edit
 % ~~~~~~~~~
 
-% Look at num_of_sigma should be different for parameter initialisation and
-% parameter standard deviation
-
 % Beginning of script
 
 % ~~~~~~~~~~~~~~~~~~~~~
@@ -21,13 +18,6 @@
 
 % Initialise model slow states
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-if (Parameter_initialisation ==0)
-   if Random_number_generator(2) % random number generator for intialisation of parameters
-    rng(0);
-%     else
-%     rng(cputime);
-    end
     
     mu_A = (Max_A+Min_A)/2;
     mu_B = (Max_B+Min_B)/2;
@@ -39,7 +29,7 @@ if (Parameter_initialisation ==0)
     sigma_A = (Max_A-Min_A)/(2*number_of_sigma);
     sigma_B = (Max_B-Min_B)/(2*number_of_sigma);
     sigma_G = (Max_G-Min_G)/(2*number_of_sigma);
-    sigma_Input = (frequency_limits(2)-frequency_limits(1))/(2*number_of_sigma);
+    sigma_Input = (frequency_limits(2)-frequency_limits(1))/(2*number_of_sigma); 
     conditionP =1;
     while conditionP
     Initial_excitability = mu_A + randn(1)*sigma_A; % Intial excitability, estimate of parameter A
@@ -49,13 +39,6 @@ if (Parameter_initialisation ==0)
     conditionP = any([Initial_excitability Initial_inhibition Initial_Finhibition Initial_Input]<0);
     end
     
-else
-    Initial_excitability = (1-PercError/100)*MVI(1,1); % Intial excitability, estimate of parameter A
-    Initial_inhibition = (1-PercError/100)*MVI(1,2); % Intial slow inhibition, estimate of parameter B
-    Initial_Finhibition = (1-PercError/100)*MVI(1,3); % Intial fast inhibition, estimate of parameter G
-    Initial_Input = (1-PercError/100)*Input_mean;
-end
-
 % Intialise model fast states
 
 Gauss_state = mean_state + State_sigma(1,:).*randn(1,Ds);
@@ -101,7 +84,7 @@ Parameter_std_deviationF = repmat(Parameter_std_deviation,Dp,1);% Define a param
 X(1:Ds,1) = Gauss_state; % Intialise all parameters for the state estimate
 
 if Dp >0                                    % Check whether parameters need to be estimated, if so alter storage folder
-    Estimation_type = 'Results\ParameterEstimation'; % Set folder into which images will be sved if they are printed
+    Estimation_type = 'ParameterEstimation'; % Set folder into which images will be sved if they are printed
     X(Ds+Dk+1,1) = Initial_excitability;     % Set the intial guess for the A to be the initial value specified.
     if Dp >1                                % Check whether more than one parameter needs to be estimated
         X(Ds+Dk+2,1) = Initial_inhibition;    % Set the intial guess for the B to be the initial value specified.
@@ -110,11 +93,9 @@ if Dp >0                                    % Check whether parameters need to b
         end
     end
 else
-    Estimation_type = 'Results\StateEstimation'; %Set folder into which images will be sved if they are printed
+    Estimation_type = 'StateEstimation'; %Set folder into which images will be sved if they are printed
 end
 
 Parameter_covariance_matrix = eye(Dp).*Parameter_std_deviationF.^2; % State Parameter matrix
 
 Pxx(:,:,1) = blkdiag(State_covariance_matrix,Input_variance,Parameter_covariance_matrix); %Covariance of model states and parameter
-
-

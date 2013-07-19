@@ -43,8 +43,6 @@ if filter_simulation
     band_coeff = filtercoeff(lowcutoff,highcutoff,fs);
 end
 
-q=0; % Intialise simulation number loop
-
 % Dynamic variables
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -70,8 +68,8 @@ for q = 1:Simulation_number
     
     if Random_number_generator(1)
         rng(0);
-        % else
-        %     rng(cputime);
+        else
+            rng(cputime);
     end
     if simulate
         SimulationSettings.fs = fs;
@@ -158,8 +156,6 @@ for q = 1:Simulation_number
             Pyyn = Pyyn +R;
             %
             Pxxn = Pxxn + Q;
-            
-            %     Pxxn(7,7) = Input_var1;
             
             [X(:,p+1) Pxx(:,:,p+1)] = Kalman(ExpX(:,p), ExpY(:,p), Y(p), Pxxn, Pxyn, Pyyn);
             if StepbyStepCheck==1 % perform a step by step check of results
