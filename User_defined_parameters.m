@@ -43,7 +43,7 @@ simulate =1; % Decide whether to simulate model output or use previous results i
 NoiseIn = 1e-3;% Base 1e-2 Specify noise to add to simulated signal
 SimulationSettings.name = 'Wendling_output'; % Specify name of file to save Wendling model output data to, or to load data from when simulation is not performed
 if simulate % Specify parameters for simulation purposes
-    SimulationSettings.simulation_time =20; %Time for simulation in seconds 
+    SimulationSettings.simulation_time =100; %Time for simulation in seconds 
     SimulationSettings.slope_time =4; % Specifies the time over which the model gain should be altered
     SimulationSettings.number_of_sigma_input = 1; % Used to determine standard deviation of input if  1: 68.27% of realisations within physiolgical range, 2: 95.45, 3: 99.73 4: 99.994
     SimulationSettings.stochastic = 1; % Used to specifiy the stochastic adjustment on the input 1 is no adjustment. <1 downscalling, >1 upscaling
@@ -58,7 +58,7 @@ if simulate % Specify parameters for simulation purposes
     if SimulationSettings.Parameter_index % Specify synaptic gains for simulation
         SimulationSettings.AV= [5];%[4 4 4 4 5 5 6 6];
         SimulationSettings.BV= [20];%[15 15 15 25 25 30 30 30];
-        SimulationSettings.GV= [0];%[30 30 30 25 25 20 20 20];
+        SimulationSettings.GV= [20];%[30 30 30 25 25 20 20 20];
     end
     SimulationSettings.Input_mean_variation = 0; % If 0 mean stays constant for simulation,
     %if 1 input mean is drawn from a uniform distribution limited by the physiological limits of the input
@@ -83,9 +83,9 @@ EstStart = 5; % Specify the duration after simulation start when estimation shou
 
 Ds = 8; % Number of differential equations describing model, also the number of fast states to be estiamted
 
-Dp = 1; % Number of parameters to be estimated, also refered to as slow states
+Dp = 3; % Number of parameters to be estimated, also refered to as slow states
 
-Dk =0; %If set to 1 the mean of the stochastic input will be estimated % Note that if Input_mean_variation is not zero than Dk should be set to one to allow tracking of the input mean
+Dk =1; %If set to 1 the mean of the stochastic input will be estimated % Note that if Input_mean_variation is not zero than Dk should be set to one to allow tracking of the input mean
 
 Dy =1; % Number of observable outputs from the simulation
 
@@ -138,7 +138,7 @@ Estimation_Type = ['GF',int2str(filter_simulation),'_PS',int2str(SimulationSetti
                            % Also used for the saving of figures % GF Gauss
                            % filter, PS parameter slope
                            
-fig_save =1; % Save figures as .fig for future use
+fig_save =0; % Save figures as .fig for future use
 
 printpdf =1; % Specify whether results should be printed to pdf
 

@@ -148,3 +148,6 @@ Parameter_uncertainty_matrix = eye(Dp).*Parameter_uncertaintyF.^2.*uncertainty_a
 R = Observation_uncertainty^2;
 
 Q = blkdiag(State_uncertainty_matrix,Input_uncertainty,Parameter_uncertainty_matrix);
+
+Q(4,4) = Q(4,4)/500;
+Q(8,8) = Q(8,8)/500;
