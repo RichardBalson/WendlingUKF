@@ -56,9 +56,9 @@ if simulate % Specify parameters for simulation purposes
     %  variations in simulation
     % 7 User defined
     if SimulationSettings.Parameter_index % Specify synaptic gains for simulation
-        SimulationSettings.AV= [5 7 5];%[4 4 4 4 5 5 6 6];
+        SimulationSettings.AV= [5 5 5];%[4 4 4 4 5 5 6 6];
         SimulationSettings.BV= [20 20 20];%[15 15 15 25 25 30 30 30];
-        SimulationSettings.GV= [20 20 20];%[30 30 30 25 25 20 20 20];
+        SimulationSettings.GV= [20 30 20];%[30 30 30 25 25 20 20 20];
     end
     SimulationSettings.Input_mean_variation = 0; % If 0 mean stays constant for simulation,
     %if 1 input mean is drawn from a uniform distribution limited by the physiological limits of the input
