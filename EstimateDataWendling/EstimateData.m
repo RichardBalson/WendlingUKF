@@ -3,6 +3,8 @@ function [X Pxx X_Multi Pxx_Multi] = EstimateData(Data,fs)
 close all
 clc
 
+tic
+
 addpath(genpath('../../Wendling'));
 
 system_dependent('setprecision',24);
@@ -56,7 +58,7 @@ for q = 1:Simulation_number
 init =0;
 condition =1;
 while condition
-    init=init+1
+    init=init+1;
     conditionT = init<1;
     Initialise_parameters_Data;
     
@@ -126,6 +128,8 @@ end
         X_Multi =0;
         Pxx_Multi =0;
     end
+    PC = q/Simulation_number
+    toc
 end % End Simulation_nuumber loop
 
 Generate_figures_data;
