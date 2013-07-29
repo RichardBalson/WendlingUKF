@@ -69,17 +69,17 @@ kappa =0; % Varibale used to define the relative contribution of the mean on the
 
 % Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
 
-State_uncertainty_adjustment = [1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
+State_uncertainty_adjustment = [1 1 1 22 1 1 1 22]; %[1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
 
-Base_parameter_uncertainty = 1e-2;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
+Base_parameter_uncertainty = 1e-2;%1e-2;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
 
 Variable_parameter_uncertainty = 0;%1e-3;  % Uncertianty due parameters varying in time
 
-Base_input_uncertainty = 1e-12;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
+Base_input_uncertainty = 1e-6;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
 
 Variable_input_uncertainty =0;%1e-3; % Uncertianty due varying input mean, Set to zero if the input mean is not varying
 
-Observation_uncertainty = 1e-6;%1e-12; %1 Specify the uncertainty in observations
+Observation_uncertainty = 1e-1;%1e-12; %1 Specify the uncertainty in observations
 
 uncertainty_adjustment = 1; % Adjuster for model uncertainty
 
