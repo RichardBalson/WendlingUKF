@@ -19,7 +19,7 @@ end
 
 fs =2048; % Specify sampling frequency
 
-Simulation_number = 1; % Specify number of simulations to estimate
+Simulation_number = 20; % Specify number of simulations to estimate
 
 Random_number_generator=[0 0]; % Specify whether random numbers for simulation should be different or the same for numerous simulations;
 
@@ -44,10 +44,10 @@ NoiseIn = 1e-3;% Base 1e-2 Specify noise to add to simulated signal
 SimulationSettings.name = 'Wendling_output'; % Specify name of file to save Wendling model output data to, or to load data from when simulation is not performed
 if simulate % Specify parameters for simulation purposes
     SimulationSettings.simulation_time =100; %Time for simulation in seconds 
-    SimulationSettings.slope_time =4; % Specifies the time over which the model gain should be altered
+    SimulationSettings.slope_time =1; % Specifies the time over which the model gain should be altered
     SimulationSettings.number_of_sigma_input = 1; % Used to determine standard deviation of input if  1: 68.27% of realisations within physiolgical range, 2: 95.45, 3: 99.73 4: 99.994
     SimulationSettings.stochastic = 1; % Used to specifiy the stochastic adjustment on the input 1 is no adjustment. <1 downscalling, >1 upscaling
-    SimulationSettings.Parameter_index = 7; % Choose parameters to be simulated: 1 = Seizure Parameter from Wendling 2002;
+    SimulationSettings.Parameter_index = 2; % Choose parameters to be simulated: 1 = Seizure Parameter from Wendling 2002;
     %  2 = Seizure Parameter from Wendling 2005;...
     %  3 = Altered excitability;
     %  4 = Parameters at midpoint of their range;
@@ -111,6 +111,8 @@ kappa =0; % Varibale used to define the relative contribution of the mean on the
 
 Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
 
+State_uncertainty_adjustment = [1 1.5 5 30 1 1.5 5 30];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
+
 Exc_parameter_uncertainty = 1e-2;
 SInh_parameter_uncertainty =8e-2;
 FInh_parameter_uncertainty =8e-2;
@@ -138,7 +140,7 @@ Estimation_Type = ['GF',int2str(filter_simulation),'_PS',int2str(SimulationSetti
                            % Also used for the saving of figures % GF Gauss
                            % filter, PS parameter slope
                            
-fig_save =0; % Save figures as .fig for future use
+fig_save =1; % Save figures as .fig for future use
 
 printpdf =1; % Specify whether results should be printed to pdf
 

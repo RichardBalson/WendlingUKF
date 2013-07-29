@@ -12,8 +12,7 @@ function [X Pxx X_Multi Pxx_Multi]= WendlingUKF
 % last edit
 % ~~~~~~~~~
 
-% Altered standard deviation for input, altered uncertainty in input, made
-% limit on estimate of input
+% Altered uncertainty of fast inhibitory states, Q in initilaise paramters
 
 % next edit
 % ~~~~~~~~~
@@ -92,7 +91,7 @@ for q = 1:Simulation_number
     
     % Simulated signal data mV
     % ~~~~~~~~~~~~~~~~
-%     output8 = output8/0.9;
+%     output8 = output8;
     if filter_simulation
         output8 = filtfilt1(band_coeff,1,output8);
     end
