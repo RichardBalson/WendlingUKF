@@ -8,7 +8,7 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Simulation_number =5;
+Simulation_number =20;
 
 filter_simulation =1; % Specify whether or not to filter simulated data
 
@@ -56,7 +56,7 @@ Dy =1; % Number of observable outputs from the simulation
 % Intialisation of parameters
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-number_of_sigma = 2; % Number of standard deviations from mean. 4 accounts for 99.73 percent of points.
+number_of_sigma = 1; % Number of standard deviations from mean. 4 accounts for 99.73 percent of points.
 
 Reinitialise_parameters_attempts = 1; % Specify number of attempts for parameter reinitialisation if results are not physiologucally possible
 
@@ -67,7 +67,9 @@ num_input_sigma=1;
 
 kappa =0; % Varibale used to define the relative contribution of the mean on the propogation of states, and adjustment of the variance of the sigma points drawn from the Gaussian distribution
 
-Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
+% Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
+
+State_uncertainty_adjustment = [1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
 
 Base_parameter_uncertainty = 1e-2;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
 
@@ -77,7 +79,7 @@ Base_input_uncertainty = 1e-12;%1e-12;%1e-3; % Inherent parameter uncertainty du
 
 Variable_input_uncertainty =0;%1e-3; % Uncertianty due varying input mean, Set to zero if the input mean is not varying
 
-Observation_uncertainty = 1e-3;%1e-12; %1 Specify the uncertainty in observations
+Observation_uncertainty = 1e-6;%1e-12; %1 Specify the uncertainty in observations
 
 uncertainty_adjustment = 1; % Adjuster for model uncertainty
 
