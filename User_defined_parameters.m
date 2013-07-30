@@ -8,7 +8,9 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filter_simulation =1; % Specify whether or not to filter simulated data
+filter_simulation =0; % Specify whether or not to filter simulated data
+
+Data_scale =0.5; % Scale simulation output to determine the effect of scaling on estimation out = outOrig/Data_scale
 
 if filter_simulation
     highcutoff = 2.5; % Specify highcutoff frequency for filter
@@ -43,7 +45,7 @@ simulate =1; % Decide whether to simulate model output or use previous results i
 NoiseIn = 1e-3;% Base 1e-2 Specify noise to add to simulated signal
 SimulationSettings.name = 'Wendling_output'; % Specify name of file to save Wendling model output data to, or to load data from when simulation is not performed
 if simulate % Specify parameters for simulation purposes
-    SimulationSettings.simulation_time =95; %Time for simulation in seconds 
+    SimulationSettings.simulation_time =140; %Time for simulation in seconds 
     SimulationSettings.slope_time =1; % Specifies the time over which the model gain should be altered
     SimulationSettings.number_of_sigma_input = 1; % Used to determine standard deviation of input if  1: 68.27% of realisations within physiolgical range, 2: 95.45, 3: 99.73 4: 99.994
     SimulationSettings.stochastic = 1; % Used to specifiy the stochastic adjustment on the input 1 is no adjustment. <1 downscalling, >1 upscaling
@@ -56,9 +58,9 @@ if simulate % Specify parameters for simulation purposes
     %  variations in simulation
     % 7 User defined
     if SimulationSettings.Parameter_index % Specify synaptic gains for simulation
-        SimulationSettings.AV= [5 5 5];%[4 4 4 4 5 5 6 6];
-        SimulationSettings.BV= [20 20 20];%[15 15 15 25 25 30 30 30];
-        SimulationSettings.GV= [20 30 20];%[30 30 30 25 25 20 20 20];
+        SimulationSettings.AV= [5 5 5 5 5 7 5];%[4 4 4 4 5 5 6 6];
+        SimulationSettings.BV= [20 20 20 30 20 20 20];%[15 15 15 25 25 30 30 30];
+        SimulationSettings.GV= [20 30 20 20 20 20 20];%[30 30 30 25 25 20 20 20];
     end
     SimulationSettings.Input_mean_variation = 0; % If 0 mean stays constant for simulation,
     %if 1 input mean is drawn from a uniform distribution limited by the physiological limits of the input

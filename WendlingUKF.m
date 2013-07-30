@@ -91,7 +91,7 @@ for q = 1:Simulation_number
     
     % Simulated signal data mV
     % ~~~~~~~~~~~~~~~~
-%     output8 = output8;
+    output8 = output8/Data_scale;
     if filter_simulation
         output8 = filtfilt1(band_coeff,1,output8);
     end
