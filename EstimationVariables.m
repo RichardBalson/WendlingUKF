@@ -88,7 +88,7 @@ end
 % Uncertianty for each fast state
 % mV
 
-State_uncertainty = ones(1,8).*Base_state_uncertainty./State_uncertainty_adjustment; % Specify base
+State_uncertainty = Base_state_uncertainty./State_uncertainty_adjustment; % Specify base
 % state uncertainty for all states
 % State_uncertainty(1,[2 6]) = (ones(1,2)*stochastic*Variable_state_uncertainty+State_uncertainty(1,[2 6])); % Alter uncertainty of parameter affected directly by stochastic input
 
@@ -149,3 +149,5 @@ R = Observation_uncertainty^2;
 
 Q = blkdiag(State_uncertainty_matrix,Input_uncertainty,Parameter_uncertainty_matrix);
 
+% Q(4,4) = Q(4,4)/500;
+% Q(8,8) = Q(8,8)/500;

@@ -37,7 +37,6 @@ maxlimit = round(sampling_frequency/10):length(check);
 % % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Error_multiplier = 1;
-scale = 0.5;
 
 t = linspace(0,dt*length(check),length(check));
 tz = linspace(tstart,tstart+zoomtime,zoomtime*sampling_frequency+1);

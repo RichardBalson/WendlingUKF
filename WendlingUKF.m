@@ -32,7 +32,7 @@ tic
 
 addpath(genpath('../Wendling')); % Specify files required for estimation
 
-system_dependent('setprecision',24); % Set the precision of accuracy in order to reduce the effect of rounding errors.
+system_dependent('setprecision',64); % Set the precision of accuracy in order to reduce the effect of rounding errors.
 
 User_defined_parameters;
 

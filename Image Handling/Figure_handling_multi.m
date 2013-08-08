@@ -14,9 +14,9 @@
 % Beginning of script
 % ~~~~~~~~~~~~~~~~~~~~~
 
-simulation_name = strcat(Estimation_type,'\',simulation_initial_name,'_P_',int2str(Dp+Dk),'PE_','Gauss','_N_',int2str(NoiseIn*1e3),'mV_');
+simulation_name = strcat(Estimation_type,'\',simulation_initial_name,'P',int2str(Dp+Dk),'N',int2str(NoiseIn*1e3),'mV_');
 
-simulation_namez = strcat(simulation_name,'z_', int2str(zoom),'s_');
+simulation_namez = strcat(simulation_name,'z', int2str(zoomtime),'s_');
 
 % Determine whether figures need to be saved
 
@@ -33,7 +33,7 @@ for k = Ds+1:size(Image_handling_states,2) % Determine which states have been pl
         
         if printpdf
             
-            print(Image_index, '-dpdf','-painters', '-r2400', [simulation_name,Image_handling_states_names{j,k},'.pdf']);
+            print(Image_index, '-dpdf','-painters', '-r2400', [simulation_name,Image_handling_states_names{1,k},'.pdf']);
             
         end
         
