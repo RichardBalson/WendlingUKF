@@ -148,6 +148,10 @@ if Simulation_number>1
     end
 end
 
+if Forward_model
+    Wendling_Sim(X(Ds+1:Ds+Dp+Dk,:)',fs);
+end
+
 %%
 
 

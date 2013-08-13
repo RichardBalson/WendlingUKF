@@ -14,6 +14,10 @@ filter_simulation =1; % Specify whether or not to filter simulated data
 
 Normalise_data =1; % Specify whether or not data should be normalised.
 
+Max_sim_voltage = 50;%20
+
+Forward_model =0; % Specify whether the forward model should be simulated with the results found from the estimtion procedure.
+
 if filter_simulation
     highcutoff = 2.5; % Specify highcutoff frequency for filter
     
@@ -25,8 +29,6 @@ if Simulation_number>1
     Decimate = 500; % Specify the distance between corresponding samples for the output matrix when multiple simulation are performed
 else Decimate =1;
 end
-
-Max_sim_voltage = 20;
 
 StepbyStepCheck =0; % Check how prediction and correction steps are working on a plot
 
@@ -69,7 +71,7 @@ kappa =0; % Varibale used to define the relative contribution of the mean on the
 
 % Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
 
-State_uncertainty_adjustment = [1 1 1 22 1 1 1 22]; %[1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
+State_uncertainty_adjustment = [1 2 3 40 1 2 3 40]; %[1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
 
 Base_parameter_uncertainty = 1e-2;%1e-2;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
 
