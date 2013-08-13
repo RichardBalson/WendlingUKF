@@ -127,18 +127,18 @@ if Estimation_Error
     end
     PlotsPerFig =1;
     for k =1:Dp
-        input(:,:,k)= squeeze(PercErrEstimateMulti(k+Dk,:,:))';
+        input(:,:,k)= squeeze(PercErrEstimateMulti(k,:,:))';
         if plot_uncertaintyMulti
-            erfn(:,:,k) = bsxfun(@rdivide,squeeze(PercErrEstimateMulti(k+Dk,:,:))'-squeeze(sqrt(Pxx_Multi(:,k+Dk,:))*Error_multiplier)',MVI(index{2},k)'*100);
-            erfp(:,:,k) = bsxfun(@rdivide,squeeze(PercErrEstimateMulti(k+Dk,:,:))'+squeeze(sqrt(Pxx_Multi(:,k+Dk,:))*Error_multiplier)',MVI(index{2},k)'*100);
+            erfn(:,:,k) = bsxfun(@rdivide,squeeze(PercErrEstimateMulti(k,:,:))'-squeeze(sqrt(Pxx_Multi(:,k,:))*Error_multiplier)',MVI(index{2},k)'*100);
+            erfp(:,:,k) = bsxfun(@rdivide,squeeze(PercErrEstimateMulti(k,:,:))'+squeeze(sqrt(Pxx_Multi(:,k,:))*Error_multiplier)',MVI(index{2},k)'*100);
         else erfn =[]; erfp =[];
         end
     end
     if Dk
-        input(:,:,Dp+1) = squeeze(PercErrEstimateMulti(1,:,:))';
+        input(:,:,Dp+1) = squeeze(PercErrEstimateMulti(Dp+1,:,:))';
         if plot_uncertaintyMulti
-            erfn(:,:,Dp+1) = squeeze(PercErrEstimateMulti(1,:,:))'-squeeze(sqrt(Pxx_Multi(:,1,:))*Error_multiplier)'./Input_mean*100;
-            erfp(:,:,Dp+1) = squeeze(PercErrEstimateMulti(1,:,:))'+squeeze(sqrt(Pxx_Multi(:,1,:))*Error_multiplier)'./Input_mean*100;
+            erfn(:,:,Dp+1) = squeeze(PercErrEstimateMulti(Dp+1,:,:))'-squeeze(sqrt(Pxx_Multi(:,Dp+1,:))*Error_multiplier)'./Input_mean*100;
+            erfp(:,:,Dp+1) = squeeze(PercErrEstimateMulti(Dp+1,:,:))'+squeeze(sqrt(Pxx_Multi(:,Dp+1,:))*Error_multiplier)'./Input_mean*100;
         else erfn =[]; erfp =[];
         end
     end

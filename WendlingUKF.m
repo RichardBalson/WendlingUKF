@@ -103,7 +103,7 @@ for q = 1:Simulation_number
     init =0;
     condition =1;
     while condition
-        init=init+1
+        init=init+1;
         conditionT = init<Reinitialise_parameters_attempts*(~Parameter_initialisation);
         Initialise_parameters;
         
@@ -224,6 +224,7 @@ for q = 1:Simulation_number
         X_Multi =0;
         Pxx_Multi =0;
     end
+    PC = q/Simulation_number
 end % End Simulation_nuumber loop
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -10,7 +10,7 @@
 
 filter_simulation =0; % Specify whether or not to filter simulated data
 
-Data_scale =1; % Scale simulation output to determine the effect of scaling on estimation out = outOrig/Data_scale
+Data_scale =0.2; % Scale simulation output to determine the effect of scaling on estimation out = outOrig/Data_scale
 
 if filter_simulation
     highcutoff = 2.5; % Specify highcutoff frequency for filter
@@ -49,7 +49,7 @@ if simulate % Specify parameters for simulation purposes
     SimulationSettings.slope_time =1; % Specifies the time over which the model gain should be altered
     SimulationSettings.number_of_sigma_input = 1; % Used to determine standard deviation of input if  1: 68.27% of realisations within physiolgical range, 2: 95.45, 3: 99.73 4: 99.994
     SimulationSettings.stochastic = 1; % Used to specifiy the stochastic adjustment on the input 1 is no adjustment. <1 downscalling, >1 upscaling
-    SimulationSettings.Parameter_index = 4; % Choose parameters to be simulated: 1 = Seizure Parameter from Wendling 2002;
+    SimulationSettings.Parameter_index = 7; % Choose parameters to be simulated: 1 = Seizure Parameter from Wendling 2002;
     %  2 = Seizure Parameter from Wendling 2005;...
     %  3 = Altered excitability;
     %  4 = Parameters at midpoint of their range;
@@ -85,9 +85,9 @@ EstStart = 5; % Specify the duration after simulation start when estimation shou
 
 Ds = 8; % Number of differential equations describing model, also the number of fast states to be estiamted
 
-Dp = 1; % Number of parameters to be estimated, also refered to as slow states
+Dp = 3; % Number of parameters to be estimated, also refered to as slow states
 
-Dk =0; %If set to 1 the mean of the stochastic input will be estimated % Note that if Input_mean_variation is not zero than Dk should be set to one to allow tracking of the input mean
+Dk =1; %If set to 1 the mean of the stochastic input will be estimated % Note that if Input_mean_variation is not zero than Dk should be set to one to allow tracking of the input mean
 
 Dy =1; % Number of observable outputs from the simulation
 
