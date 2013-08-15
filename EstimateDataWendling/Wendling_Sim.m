@@ -9,9 +9,10 @@ function Wendling_Sim(MVI,fs)
 
 % last edit
 % ~~~~~~~~~
-clear
-close all
-clc
+
+MVIT = MVI(:,1);
+MVI(:,1:3) = MVI(:,2:4);
+MVI(:,4) = MVIT;
 
 % Variables required
 % ~~~~~~~~~~~~~~~
@@ -110,9 +111,6 @@ normalise = round((solver_time+dt)*sampling_frequency);% Normalise time for matr
 
 no_solutions = sampling_frequency*simulation_time+1; % Specifies the number of solutions required
 
-param_coeff = simulation_time/(simulation_changes)*sampling_frequency; % Normalised matrix time for each parameter, in solver
-
-slope_coeff = slope_time*sampling_frequency; % Specifies matrix indices for gain change
 
 % Noise Parameters
 % ~~~~~~~~~~~~~~~~~~~~
@@ -133,7 +131,7 @@ z = zeros(no_solutions,8);% Initialise Solutions for wendling paper model, where
 % e = xxxx*randn(NSamples,1);
 % Determine stochastic input to the model
 % ~~~~~~~~~~~~~~~~~~~~~~~
-gauss = randn(1,length(normalise)+1)*std_deviation*SimulationSettings.stochastic;
+gauss = randn(1,length(normalise))*std_deviation*SimulationSettings.stochastic;
 
 %         gauss = randn(1)*std_deviation*stochastic; % Determine random fluctuations in input signal with the specified standard deviation
 
@@ -175,10 +173,10 @@ for k = normalise
     zs2 = C(1)*z(k,1);
     zs3 = C(3)*z(k,1);
     zs4 = C(5)*z(k,1)-C(6)*z(k,3);
-    [z(k+1,1) z(k+1,5)] = PSPkernel([z(k,1) z(k,5)],dt,MVI(k,1),a,sigmoid(zs1));
-    [z(k+1,2) z(k+1,6)] = PSPkernel([z(k,2) z(k,6)],dt,MVI(k,1),a,normalised_gaussian_inputSDE(k) +C(2)*sigmoid(zs2));
-    [z(k+1,3) z(k+1,7)] = PSPkernel([z(k,3) z(k,7)],dt,MVI(k,2),b,sigmoid(zs3));
-    [z(k+1,4) z(k+1,8)] = PSPkernel([z(k,4) z(k,8)],dt,MVI(k,3),g,C(7)*sigmoid(zs4));
+    [z(k+1,1) z(k+1,5)] = PSPkernel([z(k,1); z(k,5)],dt,MVI(k,1),a,sigmoid(zs1));
+    [z(k+1,2) z(k+1,6)] = PSPkernel([z(k,2); z(k,6)],dt,MVI(k,1),a,normalised_gaussian_inputSDE(k) +C(2)*sigmoid(zs2));
+    [z(k+1,3) z(k+1,7)] = PSPkernel([z(k,3); z(k,7)],dt,MVI(k,2),b,sigmoid(zs3));
+    [z(k+1,4) z(k+1,8)] = PSPkernel([z(k,4); z(k,8)],dt,MVI(k,3),g,C(7)*sigmoid(zs4));
     
 end% End of for loop
 
@@ -186,7 +184,16 @@ end% End of for loop
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 output8 = z(:,2)-C(4)*z(:,3) -z(:,4);      % 8th order output, Normalised gaussian input
 
-t = linspace(0,1/Sampling_frequency*length(output8),length(output8));
+t = linspace(0,1/sampling_frequency*length(output8),length(output8));
+
+fig_settings.label_fontsize = 10;            % point
+fig_settings.tick_fontsize = 8;              % point
+fig_settings.legend_fontsize = 10;
+fig_settings.left_pos = 5;               % cms
+fig_settings.bottom_pos = 5;             % cms
+fig_settings.font_type = 'Arial';
+fig_settings.dirname = 'Results';              % default directory for figure files
+fig_settings.scale =0.5;
 
 legendT = {'Forward Model Simulation'};
-FMO=state_figure('Wendling Neural Mass Output','Obs',fig_settings,t,X(2,index{1})-C(4)*X(3,index{1})-X(4,index{1}),legendT,[]);
+FMO=state_figure('Wendling Neural Mass Output','Obs',fig_settings,t,output8',legendT,[]);

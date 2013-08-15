@@ -231,7 +231,7 @@ if (Image_handling_multi(2,1) ==1) % Plot all model states
         end
     end
     namesS = {'v_{po} (mV)','v_{eo} (mV)','v_{sio} (mV)','v_{fio} (mV)' 'Z_{po} (mV)','Z_{eo} (mV)','Z_{sio} (mV)','Z_{fio} (mV)'};
-    NMMZ(1) = state_figure_multi(fig_name,'State',fig_settings,tz,input,{'Est.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
+    NMMZ(1) = state_figure_multi(fig_name,'State',fig_settings,tz,input,{'Est.','Std. Dev.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
     clear input erfn erfp namesS
 end
 
@@ -246,7 +246,7 @@ if (Image_handling_multi(1,2) ==1) % Plot all state inputs
             C(5)*X(1,index{1})-C(6)*X(3,index{1})];
         fig_name = 'Neural Mass State Inputs';
     namesS = {'v_{p} (mV)','v_{e} (mV)','v_{si} (mV)','v_{fi} (mV)'};
-    NMM(2) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.'},[],RowP,ColP,namesS,PlotsPerFig);
+    NMM(2) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.','Std. Dev.'},[],RowP,ColP,namesS,PlotsPerFig);
     clear input erfn erfp namesS
 end
 
@@ -260,7 +260,7 @@ if (Image_handling_multi(2,2) ==1) % % Plot all aggregate membrane potentials on
             C(5)*X(1,index{2})-C(6)*X(3,index{2})];
         fig_name = 'Neural Mass State Inputs';
     namesS = {'v_{p} (mV)','v_{e} (mV)','v_{si} (mV)','v_{fi} (mV)'};
-    NMMZ(2) = state_figure_multi(fig_name,'State',fig_settings,tz,input,{'Est.'},[],RowP,ColP,namesS,PlotsPerFig);
+    NMMZ(2) = state_figure_multi(fig_name,'State',fig_settings,tz,input,{'Est.','Std. Dev.'},[],RowP,ColP,namesS,PlotsPerFig);
     clear input erfn erfp namesS    
 end
 
@@ -292,7 +292,7 @@ if ((Image_handling_multi(1,3) ==1) &&(Dp+Dk >0)) % Plot model parameters estima
     end
         fig_name = 'Neural Mass Parameters';
     namesS = {'G_{p} (mV)','G_{s} (mV)','G_{f} (mV)','Input (Hz)'};
-    NMM(3) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
+    NMM(3) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.','Std. Dev.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
     clear input erfn erfp namesS    
     
 end
@@ -325,7 +325,7 @@ if (Image_handling_multi(2,3) ==1) % Plot model parameters estimated
     end
         fig_name = 'Neural Mass Parameters';
     namesS = {'G_{p} (mV)','G_{s} (mV)','G_{f} (mV)','Input (Hz)'};
-    NMM(3) = state_figure_multi(fig_name,'State',fig_settings,tz,input,{'Est.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
+    NMM(3) = state_figure_multi(fig_name,'State',fig_settings,tz,input,{'Est.','Std. Dev.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
     clear input erfn erfp namesS  
 end
 
@@ -343,7 +343,7 @@ if (Image_handling_firing_rates(1) ==1)
             sigmoid(ExpY(index{1}));...
             X(1,index{1})];
     namesS = {'Pyramidal Input (mV)' 'Pyramidal Firing Rate (Hz)' 'Pyramidal Output (mV)'};
-        NMFR(1) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.'},[],RowP,ColP,namesS,PlotsPerFig);
+        NMFR(1) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.','Std. Dev.'},[],RowP,ColP,namesS,PlotsPerFig);
     clear input namesS
 end
 
@@ -359,7 +359,7 @@ if (Image_handling_firing_rates(2) ==1)
             sigmoid(C(1)*X(1,index{1}));...
             X(2,index{1})];
     namesS = {'Excitatory Input (mV)' 'Excitatory Firing Rate (Hz)' 'Excitatory Output (mV)'};
-    NMFR(2) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.'},[],RowP,ColP,namesS,PlotsPerFig);
+    NMFR(2) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.','Std. Dev.'},[],RowP,ColP,namesS,PlotsPerFig);
     clear input namesS
 end
 
@@ -378,7 +378,7 @@ if (Image_handling_firing_rates(3) ==1)
 %     MassP = {C(3)*z(index{3},1); Sigmoid(C(3)*z(index{3},1)); z(index{3},3)};
 %     MassPE = {C(3)*X(1,index{3}); Sigmoid(C(3)*X(1,index{3})); X(3,index{3})};
     namesS = {'Slow Inh. Input (mV)' 'Slow Inh. Firing Rate (Hz)' 'Slow Inh. Output (mV)'};
-        NMFR(3) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.'},[],RowP,ColP,namesS,PlotsPerFig);
+        NMFR(3) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.','Std. Dev.'},[],RowP,ColP,namesS,PlotsPerFig);
     clear input namesS
 end
 
@@ -395,6 +395,6 @@ if (Image_handling_firing_rates(4) ==1)
             X(4,index{1})];
     fig_name = 'Neural Mass Fast Inh. Neuron Input, Output and Firing Rate';
    namesS= {'Fast Inh. Input (mV)' 'Fast Inh. Firing Rate (Hz)' 'Fast Inh. Output (mV)'};
-           NMFR(3) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.'},[],RowP,ColP,namesS,PlotsPerFig);
+           NMFR(3) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Est.','Std. Dev.'},[],RowP,ColP,namesS,PlotsPerFig);
     clear input namesS
 end

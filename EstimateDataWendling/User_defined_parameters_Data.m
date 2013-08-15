@@ -8,15 +8,22 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Simulation_number =20;
+Simulation_number =1;
 
 filter_simulation =1; % Specify whether or not to filter simulated data
 
 Normalise_data =1; % Specify whether or not data should be normalised.
 
-Max_sim_voltage = 50;%20
+load_previous_scale =0; %0 use min of max scale 
+                        %1 load min scale used from previous simulation results
+                        %2 use scale based on comparisons of maximum
+                        %voltages
+                        % 3 load max scale
 
-Forward_model =0; % Specify whether the forward model should be simulated with the results found from the estimtion procedure.
+Min_sim_voltage = 70;%Wendling range 6, Jansen 20
+
+Max_sim_voltage =70;% Wendling range 50, Jansen 70 % Original results 20
+Forward_model=1; % Specify whether or not to simulate data from estimation result.
 
 if filter_simulation
     highcutoff = 2.5; % Specify highcutoff frequency for filter
