@@ -20,9 +20,30 @@ simulation_namez = strcat(simulation_name,'z', int2str(zoomtime),'s_');
 
 % Determine whether figures need to be saved
 
+Image_handling_states_names = {'Output';'OutputZ'};
+
+for k = 1:size(Image_handling_model_output,2)
+    for j = 1:size(Image_handling_model_output,1)
+        if Image_handling_model_output(j,k)
+            if j==1
+                Image_index =NMO(k)
+            else
+                Image_index = NMOZ(k);
+            end
+            saveas(Image_index,[simulation_name,Image_handling_states_names{j,k},'.fig'],'fig');
+            
+            if printpdf
+                
+                print(Image_index, '-dpdf','-painters', '-r2400', [simulation_name,Image_handling_states_names{j,k},'.pdf']);
+                
+            end
+        end
+    end
+end
+
+
 Image_handling_states_names = {'Vpo' 'Veo' 'Vsio' 'Vfio' 'Zpo' 'Zeo' 'Zsio' 'Zfio' 'Input' 'Excitation' 'Slow_Inhibition' 'Fast_Inhibition'...
     ; 'VpoZ' 'VeoZ' 'VsioZ' 'VfioZ' 'ZpoZ' 'ZeoZ' 'ZsioZ' 'ZfioZ' 'InputZ' 'ExcitationZ' 'Slow_InhibitionZ' 'Fast_InhibitionZ'};
-
 for k = 1:size(Image_handling_states,2) % Determine which states have been plotted and save them as a .fig
     for j = 1:size(Image_handling_states,1)
         
@@ -77,26 +98,26 @@ Image_handling_multi_names = {'Model_States' 'Model_States_Inputs' 'Model_Parame
 
 for k = 1:size(Image_handling_multi,2) % Determine which states inputs have been ploted and save them as .fig
     for j = 1:size(Image_handling_multi,1)
-       if (((k >2) && Dp+Dk>0) || k <3) 
-        if (Image_handling_multi(j,k) ==1)
-            if (j ==1)
+        if (((k >2) && Dp+Dk>0) || k <3)
+            if (Image_handling_multi(j,k) ==1)
+                if (j ==1)
+                    
+                    Image_index = NMM(k);
+                else
+                    Image_index = NMMZ(k);
+                end
                 
-                Image_index = NMM(k);
-            else
-                Image_index = NMMZ(k);
-            end
-            
-            saveas(Image_index,[simulation_name,Image_handling_multi_names{j,k},'.fig'],'fig');
-            
-            if printpdf
+                saveas(Image_index,[simulation_name,Image_handling_multi_names{j,k},'.fig'],'fig');
                 
-                print(Image_index, '-dpdf','-painters', '-r2400', [simulation_name,Image_handling_multi_names{j,k},'.pdf']);
+                if printpdf
+                    
+                    print(Image_index, '-dpdf','-painters', '-r2400', [simulation_name,Image_handling_multi_names{j,k},'.pdf']);
+                    
+                end
                 
             end
             
         end
-        
-       end
         
     end
 end

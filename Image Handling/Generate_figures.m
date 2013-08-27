@@ -46,15 +46,15 @@ index = {1:length(check) tstart*sampling_frequency+1:(tstart+zoomtime)*sampling_
 
 if (Image_handling_model_output(1,1))
     
-    legendT = {'Noisy Obs.','Estimated Obs.','Obs.'};
-    NMO=state_figure('Wendling Neural Mass Output','Obs',fig_settings,t,[Y(index{1})'; X(2,index{1})-C(4)*X(3,index{1})-X(4,index{1}); check(index{1})'],legendT,[]);
+    legendT = {'Obs.','Estimated Obs.','Noisy Obs.'};
+    NMO=state_figure('Wendling Neural Mass Output','Obs',fig_settings,t,[check(index{1})'; X(2,index{1})-C(4)*X(3,index{1})-X(4,index{1}); Y(index{1})'],legendT,[]);
     
 end
 
 if (Image_handling_model_output(2,1))
     
-    legendT = {'Noisy Obs.','Estimated Obs.','Obs.'};
-    NMO=state_figure('Wendling Neural Mass Output zoomtimeed In','Obs',fig_settings,tz,[Y(index{2})'; X(2,index{2})-C(4)*X(3,index{2})-X(4,index{2}); check(index{2})'],legendT,[]);
+    legendT = {'Obs.','Estimated Obs.','Noisy Obs.'};
+    NMOZ=state_figure('Wendling Neural Mass Output zoomtimeed In','Obs',fig_settings,tz,[check(index{2})'; X(2,index{2})-C(4)*X(3,index{2})-X(4,index{2}); Y(index{2})'],legendT,[]);
     
 end
 legendT = {'Sim. v_{p0}','Est. v_{p0}','Std. Dev.';...
