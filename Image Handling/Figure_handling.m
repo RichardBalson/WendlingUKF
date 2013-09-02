@@ -26,7 +26,7 @@ for k = 1:size(Image_handling_model_output,2)
     for j = 1:size(Image_handling_model_output,1)
         if Image_handling_model_output(j,k)
             if j==1
-                Image_index =NMO(k)
+                Image_index =NMO(k);
             else
                 Image_index = NMOZ(k);
             end

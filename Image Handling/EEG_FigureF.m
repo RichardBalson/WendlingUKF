@@ -22,7 +22,7 @@ fig_height = 5;                 % cms
 fig_dirandname = [fig_settings.dirname name];
 legLoc= 'NorthOutside';
 legOri = 'horizontal';
-color = {'k' 'r-' 'c:' 'g'};
+color = {'k' 'r' 'c:' 'g'};
 
 elseif strcmp(fig_structure,'State')
 fig_width = 14.5;                % cms

@@ -199,7 +199,7 @@ for k = 1:floor(Ds/2)
         NMSIZ(k)=state_figure(fig_name{k},'State',fig_settings,tz,Input(:,:,k),{'Sim. Input','Est. Input'},[]);
     end
 end
-clear Input
+clear Input input
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -208,7 +208,7 @@ clear Input
 % ~~
 
 if (Image_handling_multi(1,1) ==1) % Plot all model states
-    RowP = Ds/2; % Set number of rows for multi plot
+    RowP = round(Ds/2); % Set number of rows for multi plot
     ColP =2; % Set number of columns for multi plot
     fig_name = 'All Fast States';
     PlotsPerFig =2;
