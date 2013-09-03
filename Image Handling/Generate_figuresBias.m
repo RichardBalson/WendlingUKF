@@ -146,7 +146,7 @@ fig_name = {'Neural Mass Exc. Gain (G_{p})';...
     'Neural Mass Fast Inh. Gain (G_{f})'};
 if Dp>0
     for k = 1:Dp
-        if (Image_handling_states(1,Ds+1+k))
+        if (Image_handling_states(1,Ds+1-(Do>0)+k))
            if (plot_uncertainty)  
             erfn = X(Ds+Dk+k,index{1})-squeeze(sqrt(Pxx(Ds+Dk+k,Ds+Dk+k,index{1})*Error_multiplier))';
             erfp = X(Ds+Dk+k,index{1})+squeeze(sqrt(Pxx(Ds+Dk+k,Ds+Dk+k,index{1})*Error_multiplier))';
@@ -155,7 +155,7 @@ if Dp>0
         end
             NMS(Ds+Dk+k)=state_figure(fig_name{k},'State',fig_settings,t,[MVI(index{3},k)';X(Ds+Dk+k,index{1})],{'Sim. Input','Est. Input','Std. Dev.'},[erfn;erfp]);
         end
-        if (Image_handling_states(2,Ds+1+k))
+        if (Image_handling_states(2,Ds+1-(Do>0)+k))
             if (plot_uncertainty) 
             erfn = X(Ds+Dk+k,index{2})-squeeze(sqrt(Pxx(Ds+Dk+k,Ds+Dk+k,index{2})*Error_multiplier))';
             erfp = X(Ds+Dk+k,index{2})+squeeze(sqrt(Pxx(Ds+Dk+k,Ds+Dk+k,index{2})*Error_multiplier))';
@@ -443,7 +443,7 @@ end
     
 
 if Do>0
-    inD = [Data_scale;0];
+    inD = [DC_bias];
     RowP =1;
     ColP=Do;
     PlotsPerFig =2;
@@ -462,7 +462,7 @@ if Do>0
 end
 
 if Do>0
-    inD = [Data_scale;0];
+    inD = [DC_bias];
     RowP =1;
     ColP=Do;
     PlotsPerFig =2;
@@ -475,7 +475,7 @@ if Do>0
         end
     end
         fig_name = 'Neural Mass Observation Function';
-    namesS = {'Scale','Bias'};
+    namesS = {'Bias'};
     NMSP(1) = state_figure_multi(fig_name,'State',fig_settings,t,input,{'Sim.','Est.','Std. Dev.'},[erfn;erfp],RowP,ColP,namesS,PlotsPerFig);
     clear input erfn erfp namesS inD 
 end

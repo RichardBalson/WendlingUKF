@@ -28,18 +28,23 @@ for k = 1:size(input,1)/FigPlots
     box off
     minc = min(min(input((k-1)*FigPlots+1:k*FigPlots,:)));maxc = max(max(input((k-1)*FigPlots+1:k*FigPlots,:)));
     axis([min(time) max(time) (minc-abs(minc)*fig_settings.scale) (maxc+abs(maxc)*fig_settings.scale)]);
+    if (k == size(input,1)/FigPlots-1)
+        xlabel('Time (s)','fontsize',fig_settings.label_fontsize)
+    end
 end
 
 xlabel('Time (s)','fontsize',fig_settings.label_fontsize)
-% title('Pyramidal Population Input','fontsize', label_fontsize)
+if k>1
 Leg = legend(legendT,'Location',legLoc,'Orientation',legOri);
+else
+Leg = legend(legendT,'Location',[0.3 0.45 0.5 1],'Orientation',legOri);
+end
 if ~isempty(Error)
     for k = 1:size(input,1)/FigPlots
         uistack(n(k),'bottom');
         uistack(m(k),'bottom');
     end
 end
-% uistack(h,'top');
 legend(Leg,'boxoff');
 set(Leg,'fontsize',fig_settings.legend_fontsize);
 

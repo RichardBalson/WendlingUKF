@@ -16,7 +16,7 @@
 % ~~~~~~~~~~~~~~~~~~~~~
 
 if strcmp(fig_structure,'State')
-fig_width = 13*Cols;                % cms
+fig_width = 15;%13*Cols;                % cms
 fig_height = 4*Rows;                 % cms
 fig_dirandname = [fig_settings.dirname name];
 legOri = 'horizontal';
@@ -25,7 +25,7 @@ ErrCol = 'g';
 legLoc = [0.3 0.45 0.5 1];
 linewidth =1;
 elseif strcmp(fig_structure,'Multi')
-fig_width = 13*Cols;                % cms
+fig_width = 15;%13*Cols;                % cms
 fig_height = 4*Rows;                 % cms
 fig_dirandname = [fig_settings.dirname name];
 legLoc = [0.3 0.45 0.5 1];
