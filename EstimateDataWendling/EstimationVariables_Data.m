@@ -20,7 +20,7 @@
 % Image names and handling
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~`
  sampling_frequency =fs;
- frequency_limits=[30,150];
+
  a = 100;
  b= 30;
  g=350;

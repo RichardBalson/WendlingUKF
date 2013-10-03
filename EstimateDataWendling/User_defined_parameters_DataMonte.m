@@ -8,7 +8,7 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Simulation_number =1;
+Simulation_number =100;
 
 filter_simulation =1; % Specify whether or not to filter simulated data
 
@@ -20,7 +20,8 @@ load_previous_scale =0; %0 use min of max scale
                         %voltages
                         % 3 load max scale
                         
-setParamInit =1; % Set the initial parameters for the estimation procedure
+                        
+setParamInit =0; % Set the initial parameters for the estimation procedure
 
 if setParamInit
     InitParam = [5 20 20 90];
@@ -39,7 +40,7 @@ if filter_simulation
 end
 
 if Simulation_number>1
-    Decimate = 500; % Specify the distance between corresponding samples for the output matrix when multiple simulation are performed
+    Decimate = 100; % Specify the distance between corresponding samples for the output matrix when multiple simulation are performed
 else Decimate =1;
 end
 
@@ -106,9 +107,9 @@ std_adjustment_parameters =1; %2% Variance adjuster for parameters
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-fig_save =1; % Save figures as .fig for future use
+fig_save =0; % Save figures as .fig for future use
 
-printpdf =1;
+printpdf =0;
 
 Image_handling_model_output=[0;0];
 

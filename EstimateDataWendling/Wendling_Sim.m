@@ -197,3 +197,5 @@ fig_settings.scale =0.5;
 
 legendT = {'Forward Model Simulation'};
 FMO=state_figure('Wendling Neural Mass Output','Obs',fig_settings,t,output8',legendT,[]);
+saveas(FMO,'Forward model Simulation.fig','fig');
+print(FMO, '-dpdf','-painters', '-r2400', 'Forward model Simulation.pdf');
