@@ -29,7 +29,7 @@ end
 Min_sim_voltage =20;%Wendling range 6, Jansen 20
 
 Max_sim_voltage =70;% Wendling range 50, Jansen 70 % Original results 20
-Forward_model=1; % Specify whether or not to simulate data from estimation result.
+Forward_model=0; % Specify whether or not to simulate data from estimation result.
 
 if filter_simulation
     highcutoff = 0.5;%2.5; % Specify highcutoff frequency for filter
@@ -86,11 +86,15 @@ kappa =0; % Varibale used to define the relative contribution of the mean on the
 
 State_uncertainty_adjustment = [1 2 3 40 1 2 3 40]; %[1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
 
-Base_parameter_uncertainty = 1e-2;%1e-2;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
+
+Exc_parameter_uncertainty = 1e-2;
+SInh_parameter_uncertainty =1e-2;%6e-2
+FInh_parameter_uncertainty =4e-2;%6e-2
+Base_parameter_uncertainty = 4e-2;%1e-2;%1e-6;%1e-3; % Inherent parameter uncertainty due to model error
 
 Variable_parameter_uncertainty = 0;%1e-3;  % Uncertianty due parameters varying in time
 
-Base_input_uncertainty = 1e-6;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
+Base_input_uncertainty = 1e-2;%1e-3; % Inherent parameter uncertainty due to model error
 
 Variable_input_uncertainty =0;%1e-3; % Uncertianty due varying input mean, Set to zero if the input mean is not varying
 
@@ -108,7 +112,7 @@ std_adjustment_parameters =1; %2% Variance adjuster for parameters
 
 fig_save =0; % Save figures as .fig for future use
 
-printpdf =1;
+printpdf =0;
 
 Image_handling_model_output=[0;0];
 
@@ -123,12 +127,12 @@ Image_handling_inputs = [0 0 0 0;0 0 0 0];  % Here a decision is made whether to
                                                                             % The columns indicate the state to plot and the rows indicate whether the whole simulation or a zoomed in ploted should be plotted.
                                                                             % Here column 1-4 are Vp,Ve,Vsi and Vfi respectively.
 
-Image_handling_firing_rates = [0 0 1 0]; % Here a decision is made whether to plot specific states, 
+Image_handling_firing_rates = [0 0 0 0]; % Here a decision is made whether to plot specific states, 
                                                                             % if the value is one the relevant figure is plotted, otherwise it is not.
                                                                             % The columns indicate the firing rate to plot. this is a three image plot where the input potential population firing rate and output potential are plotted.
                                                                             % Here column 1-4 are Vp,Ve,Vsi and Vfi respectively.
 
-Image_handling_multi = [1 1 1;0 0 0];%  % Here a decision is made whether to plot specific states, 
+Image_handling_multi = [1 0 1;0 0 0];%  % Here a decision is made whether to plot specific states, 
                                                                             % if the value is one the relevant figure is plotted, otherwise it is not.
                                                                             % The columns indicate the figures to be plotted.
                                                                             % Here column 1-4 are for all the model states, all the model states inputs, all the model parameters.

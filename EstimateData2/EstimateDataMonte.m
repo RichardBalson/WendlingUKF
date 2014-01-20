@@ -1,5 +1,5 @@
 function [X Pxx X_Multi Pxx_Multi] = EstimateDataMonte(Data,fs)
-% Function created by Richard Balson 28/09/2013
+
 close all
 clc
 
@@ -7,7 +7,7 @@ tic
 
 addpath(genpath('../../Wendling'));
 
-system_dependent('setprecision',64);
+system_dependent('setprecision',24);
 
 Y = Data;
 
@@ -155,7 +155,7 @@ for q = 1:Simulation_number
 end % End Simulation_nuumber loop
 
     if saveStates
-    save MultiModelStates X_Multi Decimate
+    save MultiModelStates X_Multi
     end
 
 

@@ -8,7 +8,7 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Simulation_number =1;
+Simulation_number =100;
 
 filter_simulation =1; % Specify whether or not to filter simulated data
 
@@ -20,7 +20,8 @@ load_previous_scale =0; %0 use min of max scale
                         %voltages
                         % 3 load max scale
                         
-setParamInit =1; % Set the initial parameters for the estimation procedure
+                        
+setParamInit =0; % Set the initial parameters for the estimation procedure
 
 if setParamInit
     InitParam = [5 20 20 90];
@@ -39,7 +40,7 @@ if filter_simulation
 end
 
 if Simulation_number>1
-    Decimate = 500; % Specify the distance between corresponding samples for the output matrix when multiple simulation are performed
+    Decimate = 100; % Specify the distance between corresponding samples for the output matrix when multiple simulation are performed
 else Decimate =1;
 end
 
@@ -81,16 +82,17 @@ Reinitialise_parameters_attempts = 1; % Specify number of attempts for parameter
 num_input_sigma=1;
 
 kappa =0; % Varibale used to define the relative contribution of the mean on the propogation of states, and adjustment of the variance of the sigma points drawn from the Gaussian distribution
-
-% Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
-
 State_uncertainty_adjustment = [1 2 3 40 1 2 3 40]; %[1 1 1 22 1 1 1 22];%[1 1.5 5 20 1 1.5 5 20];%MAy be too far[1 10 20 60 1 10 20 60];% Exponential decrease in uncertainty % All ones good for slow but steady convergence
 
-Base_parameter_uncertainty = 1e-2;%1e-2;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
+% Variable_state_uncertainty = 0;%1e-3; % 1e-3 Uncertianty due to stochastic input
+Exc_parameter_uncertainty = 1e-2;
+SInh_parameter_uncertainty =6e-2;%6e-2
+FInh_parameter_uncertainty =6e-2;%6e-2
+Base_parameter_uncertainty = 4e-2;%1e-2;%1e-6;%1e-3; % Inherent parameter uncertainty due to model error
 
 Variable_parameter_uncertainty = 0;%1e-3;  % Uncertianty due parameters varying in time
 
-Base_input_uncertainty = 1e-6;%1e-12;%1e-3; % Inherent parameter uncertainty due to model error
+Base_input_uncertainty = 6e-2;%1e-3; % Inherent parameter uncertainty due to model error
 
 Variable_input_uncertainty =0;%1e-3; % Uncertianty due varying input mean, Set to zero if the input mean is not varying
 
@@ -108,7 +110,7 @@ std_adjustment_parameters =1; %2% Variance adjuster for parameters
 
 fig_save =0; % Save figures as .fig for future use
 
-printpdf =1;
+printpdf =0;
 
 Image_handling_model_output=[0;0];
 

@@ -1,5 +1,5 @@
-function [X Pxx X_Multi Pxx_Multi] = EstimateDataMonte(Data,fs)
-% Function created by Richard Balson 28/09/2013
+function [X Pxx X_Multi Pxx_Multi] = EstimateData(Data,fs)
+
 close all
 clc
 
@@ -7,11 +7,11 @@ tic
 
 addpath(genpath('../../Wendling'));
 
-system_dependent('setprecision',64);
+system_dependent('setprecision',24);
 
 Y = Data;
 
-User_defined_parameters_DataMonte;
+User_defined_parameters_Data;
 
 Dx = Ds+Dp+Dk; % Number of dimensions of augmented state matrix, Note that estimated parameters and inputs are now considered to be 'slow states' in the estimation procedure[
 
@@ -140,11 +140,11 @@ for q = 1:Simulation_number
     if (Simulation_number ~=1)
         if q ==1
             X_Multi = zeros(floor(size(X,2)/Decimate)+1,Dp+Dk,Simulation_number);
-%             Pxx_Multi = zeros(floor(size(X,2)/Decimate)+1,Dp+Dk,Simulation_number);
+            Pxx_Multi = zeros(floor(size(X,2)/Decimate)+1,Dp+Dk,Simulation_number);
         end
-        X_Multi(:,:,q) = X(Ds+1:Ds+Dp+Dk,1:Decimate:end)';
+        X_Multi(:,:,q) = X(Ds+1:Ds+Dp+Dk,1:500:end)';
         for k =1:Dk+Dp
-%             Pxx_Multi(:,k,q) = squeeze(Pxx(k,k,1:Decimate:end));
+            Pxx_Multi(:,k,q) = squeeze(Pxx(k,k,1:500:end));
         end
     else
         X_Multi =0;
@@ -154,10 +154,33 @@ for q = 1:Simulation_number
     toc
 end % End Simulation_nuumber loop
 
-    if saveStates
-    save MultiModelStates X_Multi Decimate
-    end
+Generate_figures_data;
 
+if fig_save
+    
+    Figure_handling_Data;
+    
+end
+if Simulation_number>1
+    Generate_figures_multi_data;
+    if fig_save
+        
+        Figure_handling_multi_Data;
+        
+    end
+    
+    if saveStates
+    save MultiModelStates X_Multi Pxx_Multi
+    end
+end
+
+% if saveStates
+    save ModelStates X Pxx
+% end
+% 
+% if Forward_model
+    Wendling_Sim(X(Ds+1:Ds+Dp+Dk,:)',fs);
+% end
 
 %%
 

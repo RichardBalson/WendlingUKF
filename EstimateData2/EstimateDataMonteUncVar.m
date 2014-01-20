@@ -1,5 +1,5 @@
-function [X Pxx X_Multi Pxx_Multi] = EstimateDataMonte(Data,fs)
-% Function created by Richard Balson 28/09/2013
+function [X Pxx X_Multi Pxx_Multi] = EstimateDataMonteUncVar(Data,fs)
+
 close all
 clc
 
@@ -7,11 +7,11 @@ tic
 
 addpath(genpath('../../Wendling'));
 
-system_dependent('setprecision',64);
+system_dependent('setprecision',24);
 
 Y = Data;
 
-User_defined_parameters_DataMonte;
+User_defined_parameters_DataMonteUncVar;
 
 Dx = Ds+Dp+Dk; % Number of dimensions of augmented state matrix, Note that estimated parameters and inputs are now considered to be 'slow states' in the estimation procedure[
 
@@ -71,6 +71,7 @@ Min = [Min_A, Min_B, Min_G];
 % ~~~~~~~~~~~
 EstimationVariables_Data;
 for q = 1:Simulation_number
+    Base_parameter_uncertainty = Var_par_uncertainty(q);
     init =0;
     condition =1;
     while condition
@@ -147,6 +148,7 @@ for q = 1:Simulation_number
 %             Pxx_Multi(:,k,q) = squeeze(Pxx(k,k,1:Decimate:end));
         end
     else
+        save ModelStates X Pxx
         X_Multi =0;
         Pxx_Multi =0;
     end
@@ -155,9 +157,17 @@ for q = 1:Simulation_number
 end % End Simulation_nuumber loop
 
     if saveStates
-    save MultiModelStates X_Multi Decimate
+    save MultiModelStates X_Multi
     end
+    
+    Generate_figures_data;
 
+if fig_save
+    
+    Figure_handling_Data;
+    
+end
+Wendling_Sim(X(Ds+1:Ds+Dp+Dk,:)',fs);
 
 %%
 

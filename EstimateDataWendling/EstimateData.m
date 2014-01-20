@@ -7,7 +7,7 @@ tic
 
 addpath(genpath('../../Wendling'));
 
-system_dependent('setprecision',24);
+system_dependent('setprecision',64);
 
 Y = Data;
 
@@ -108,7 +108,7 @@ for q = 1:Simulation_number
             elseif Dp ==2
                 gain = [Sigma(Ds+Dk+1,:,p); Sigma(Ds+Dk+2,:,p); ones(1,size(Sigma,2))*G];
             elseif Dp==1
-                gain = [Sigma(Ds+Dk+1,k,p); ones(1,size(Sigma,2))*B; ones(1,size(Sigma,2))*G];
+                gain = [Sigma(Ds+Dk+1,:,p); ones(1,size(Sigma,2))*B; ones(1,size(Sigma,2))*G];
             end
             
             if Dk ==1
@@ -174,13 +174,19 @@ if Simulation_number>1
     end
 end
 
-% if saveStates
-%     save ModelStates X Pxx
-% end
+if saveStates
+    PxxT = Pxx;
+    clear Pxx
+    Pxx = zeros(Dx,size(PxxT,3));
+    for j =1:size(PxxT,3)
+    Pxx(:,j) = diag(PxxT(:,:,j)); 
+    end
+    save ModelStates X Pxx
+end
 % 
-% if Forward_model
-%     Wendling_Sim(X(Ds+1:Ds+Dp+Dk,:)',fs);
-% end
+if Forward_model
+    Wendling_Sim(X(Ds+1:Ds+Dp+Dk,:)',fs);
+end
 
 %%
 
